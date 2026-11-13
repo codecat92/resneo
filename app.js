@@ -16,7 +16,7 @@ $('#introb').onclick=close;el.onclick=e=>{if(e.target===el)close()};document.add
 requestAnimationFrame(()=>{el.classList.add('open');$('#introb')?.focus()});
 }
 if('IntersectionObserver'in window&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:.12});
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('is-revealed');io.unobserve(en.target)}}),{threshold:.12});
 document.querySelectorAll('.g3>.cd,.g4>.cd,.sh,.cta,#prog').forEach(n=>{n.classList.add('reveal');io.observe(n)});
 }
 const WM='Dr. Contoh · contoh@email.com',T=Array.from({length:8},(_,i)=>`Judul materi contoh ${i+1}`);
