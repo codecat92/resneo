@@ -2,8 +2,16 @@ const K='resneo',$=(s,e=document)=>e.querySelector(s),D={ebook:0,quiz:null,video
 const S={get(){try{return Object.assign({},D,JSON.parse(localStorage.getItem(K)))}catch(e){return{...D}}},set(o){localStorage.setItem(K,JSON.stringify({...S.get(),...o}))},reset(){localStorage.removeItem(K);localStorage.removeItem('resneo:seenIntro');location.reload()}};
 const P=(location.pathname.split('/').pop()||'index').replace('.html','')||'index';
 const NAV=[['index','Beranda'],['ebook','Materi'],['kuis','Kuis'],['video','Video']];
-const hd=$('#hd');if(hd)hd.innerHTML=`<header class="hd"><div class="w"><a class="lg" href="index.html"><img class="logo" src="assets/resneo-logo.png" alt="Logo ResNeo Indonesia">ResNeo Indonesia</a><button class="bg" aria-label="Menu">☰</button><nav class="nv">${NAV.map(([p,t])=>`<a href="${p}.html" class="${p==P?'on':''}">${t}</a>`).join('')}<a class="bt o" href="login.html" style="min-height:40px">Admin</a></nav></div></header>`;
-if(hd)$('.bg').onclick=()=>$('.nv').classList.toggle('open');
+const THEME_K='resneo:theme';
+const getTheme=()=>localStorage.getItem(THEME_K)||'dark';
+const applyTheme=t=>{document.documentElement.setAttribute('data-theme',t);const logo=$('.hd .logo');if(logo)logo.src=t==='light'?'assets/resneo-logo.png':'assets/resneo-logo-white.png';};
+applyTheme(getTheme());
+const ICON_SUN='<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>';
+const ICON_MOON='<svg class="i-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>';
+const hd=$('#hd');if(hd)hd.innerHTML=`<header class="hd"><div class="w"><a class="lg" href="index.html"><img class="logo" src="assets/resneo-logo-white.png" alt="Logo ResNeo Indonesia">ResNeo Indonesia</a><button class="bg" aria-label="Menu">☰</button><nav class="nv">${NAV.map(([p,t])=>`<a href="${p}.html" class="${p==P?'on':''}">${t}</a>`).join('')}<button class="th" id="themeToggle" aria-label="Ganti tema terang/gelap" title="Ganti tema">${ICON_SUN}${ICON_MOON}</button><a class="bt o" href="login.html" style="min-height:40px">Admin</a></nav></div></header>`;
+if(hd){$('.bg').onclick=()=>$('.nv').classList.toggle('open');}
+if(hd&&$('#themeToggle'))$('#themeToggle').onclick=()=>{const n=getTheme()==='light'?'dark':'light';localStorage.setItem(THEME_K,n);applyTheme(n);};
+applyTheme(getTheme());
 const ft=$('#ft');if(ft)ft.innerHTML=`<footer class="ft"><div class="w sp"><span>© 2026 ResNeo Indonesia · Tampilan contoh (demo), data tidak nyata</span><a href="#" onclick="S.reset();return false">Reset demo</a></div></footer>`;
 const INTRO_K='resneo:seenIntro';
 if(!localStorage.getItem(INTRO_K)){
